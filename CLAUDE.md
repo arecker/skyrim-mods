@@ -62,3 +62,62 @@ tracked in git, only the config that references them.
 
 New archives are downloaded manually from Nexus Mods into this folder. A Nexus API key is available
 via `pass nexus/api-key` if a task needs to hit the Nexus API directly (e.g. to check for mod updates).
+
+## Adding new mods ("move them over")
+
+When told to "move them over," one or more archives are sitting in `~/Downloads/` waiting to be
+brought into this repo. For each one:
+
+1. **Identify the mod on Nexus.** Hash the file and query
+   `GET /v1/games/skyrimspecialedition/mods/md5_search/{md5}.json` (auth header `apikey`, key from
+   `pass nexus/api-key`) to get the real mod ID — don't guess from the filename.
+2. **Pull mod metadata** via `GET /v1/games/skyrimspecialedition/mods/{id}.json`. The `description`
+   field is freeform BBCode, not structured data, so this is best-effort text reading, not a clean
+   API field:
+   - Game version compatibility — compare whatever the description says against the installed
+     version (read from the `skse64_*.dll` filename in `game_dir`, e.g. `skse64_1_7_104.dll` →
+     `1.7.104.0`).
+   - A "Required Mods" list of linked mod IDs — but treat this as a lower bound, not the full
+     picture. The mod page's actual "Requirements" tab (what you see on nexusmods.com) is a
+     separate, more complete data source that the API does **not** expose in this field — the
+     `description` text is freeform prose the author typed, and it can omit real requirements
+     (confirmed: Community Shaders' description only mentioned 2 of its 3 actual Nexus
+     requirements, burying the third under "Strongly Recommended"). If precision matters, ask
+     me to paste the Requirements tab from the site rather than trusting the description alone.
+   - Nexus does not expose forum/comment threads through the public API (only mod/file/changelog
+     metadata) — don't attempt to fetch "recent posts," it isn't realistically doable this way.
+3. **Resolve dependencies.** Existing filenames in `mods.conf` embed their Nexus mod ID (e.g.
+   `... 32444 ...`), so a required mod ID can usually be matched to an existing section that way.
+   Add matches as `requires =`. **If a dependency isn't already in `mods.conf`/`downloads/`, stop
+   and call it out to me — don't fetch or add it yourself.**
+4. **Work out load order.** If the mod ships a plugin (`.esp`/`.esm`/`.esl`), check the LOOT
+   masterlist for load-after rules involving it:
+   `https://raw.githubusercontent.com/loot/skyrimse/<tag>/masterlist.yaml` (fast fetch, ~1MB, well
+   under a second — pick a recent release tag). It only covers plugin mods; SKSE-DLL-only mods
+   (most of what's in this repo) generally have no entry there, which is expected, not a failure.
+   Falling back to placement near similar existing mods is fine when there's no masterlist hit.
+5. **Move and configure.** Move the archive from `~/Downloads/` into `./downloads/`, then add or
+   update its section in `mods.conf` (`filename =`, `requires =`), positioned per the load order
+   worked out above.
+6. **Never run `skrim`.** I always run it myself after reviewing the diff.
+
+## Reviewing crashes
+
+CrashLogger (SKSE plugin) writes logs to:
+
+```
+~/.local/share/Steam/steamapps/compatdata/489830/pfx/drive_c/users/steamuser/Documents/My Games/Skyrim Special Edition/SKSE/
+```
+
+as `crash-YYYY-MM-DD-HH-MM-SS.log`, plus a running `CrashLogger.log`. Filenames sort chronologically
+as plain strings, so finding "the last few" is just a sort — no need to read every log to find them.
+
+When asked to look at crashes:
+
+- Get the real current time (`date`) rather than assuming — don't rely on training-data guesses
+  about "now."
+- Read the most recent several logs relative to that real time, not just the single latest one.
+- Look for a systemic pattern — the same mod/plugin/DLL implicated across multiple crashes — rather
+  than treating each crash as an isolated event.
+- For any mod that looks implicated, query its Nexus mod page via the API for known issues, recent
+  updates, or compatibility notes before recommending a fix.
