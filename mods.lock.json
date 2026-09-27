@@ -6206,6 +6206,7 @@
   {
     "mod_name": "compass_navigation_overhaul_ae_patch",
     "targets": [
+      "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/SKSE/Plugins/CompassNavigationOverhaul.pdb",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/SKSE/Plugins/CompassNavigationOverhaul.dll",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/CompassNavigationOverhaul.esp",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/licenses/THIRD_PARTY_NOTICES.md",
@@ -6217,7 +6218,6 @@
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/licenses/CommonLibSSE-NG-EXCEPTIONS.md",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/MCM/Config/CompassNavigationOverhaul/settings.ini",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/MCM/Config/CompassNavigationOverhaul/config.json",
-      "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_CZECH.txt",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_SPANISH.txt",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_RUSSIAN.txt",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_POLISH.txt",
@@ -6226,10 +6226,11 @@
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_GERMAN.txt",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_FRENCH.txt",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_ENGLISH.txt",
+      "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_CZECH.txt",
       "/home/deck/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data/Interface/Translations/CompassNavigationOverhaul_CHINESE.txt"
     ],
     "fomod_choices": null,
-    "package_hash": "8521704860052b10ea9fb3cb7502e21f11c6cfac66b8d46351bb3e45931ed58c"
+    "package_hash": "966bbff45969976c0b0b306b4559da6af01a6a0a37499bc84a9ff660076a8ad2"
   },
   {
     "mod_name": "experience",
